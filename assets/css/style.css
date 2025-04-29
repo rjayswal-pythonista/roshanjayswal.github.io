@@ -12,28 +12,12 @@ body {
   font-family: "Open Sans", sans-serif;
   color: #fff;
   position: relative;
-  background: transparent;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  background: #010e1b;
-  background-size: cover;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 100vh;
-}
-
-@media (min-width: 1024px) {
-  body::before {
-    background-attachment: fixed;
-  }
+  /* background: transparent; Removed as video will cover */
 }
 
 a {
   color: #12d640;
+  transition: color 0.3s ease-in-out, text-decoration 0.3s ease-in-out; /* Added transition */
 }
 
 a:hover {
@@ -58,18 +42,44 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .background-image {
-  position: absolute;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: contrast(150%);
+  position: fixed; /* Changed from absolute to fixed */
+  right: 0; /* Added */
+  bottom: 0; /* Added */
+  min-width: 100%; /* Changed from width */
+  min-height: 100%; /* Changed from height */
+  width: auto; /* Added */
+  height: auto; /* Added */
+  z-index: -100; /* Ensure it's behind everything */
+  background-size: cover; /* Added */
 }
 
 svg {
   fill: currentColor;
+}
+
+/* Add custom styles here */
+.rank-highlight {
+  color: #12D640; /* Use the theme's highlight color */
+  font-weight: bold;
+  position: relative; /* Needed for pseudo-element positioning */
+  overflow: hidden; /* Contain the shine effect */
+  display: inline-block; /* Ensure it wraps the text correctly */
+}
+
+.rank-highlight::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%; /* Start shine off-screen to the left */
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  transition: none; /* Disable transition for the base state */
+}
+
+.rank-highlight:hover::after {
+  left: 100%; /* Move shine across to the right on hover */
+  transition: left 0.8s ease-in-out; /* Control the shine animation speed */
 }
 
 /*--------------------------------------------------------------
@@ -354,8 +364,9 @@ section.section-show {
 }
 
 section .container {
-  background: rgba(0, 0, 0, 0);
+  background: rgba(15, 32, 54, 0.8); /* Slightly transparent dark blue */
   padding: 30px;
+  border-radius: 8px; /* Added rounded corners */
 }
 
 @media (max-width: 768px) {
@@ -510,9 +521,13 @@ section .container {
   align-items: center;
   padding: 20px;
   background: #09203a;
-  transition: ease-in-out 0.3s;
+  transition: transform 0.3s ease-in-out, background 0.3s ease-in-out; /* Added transform transition */
 }
 
+.interests .icon-box:hover {
+  background: #042b56eb;
+  transform: scale(1.05); /* Added scale effect on hover */
+}
 
 .interests .icon-box i {
   font-size: 32px;
@@ -527,10 +542,6 @@ section .container {
   line-height: 1;
   font-size: 16px;
   color: #fff;
-}
-
-.interests .icon-box:hover {
-  background: #042b56eb;
 }
 
 /*--------------------------------------------------------------
@@ -684,8 +695,9 @@ section .container {
   text-align: center;
   background: #09203a;
   padding: 40px 40px;
-  transition: all ease-in-out 0.3s;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out; /* Added transform and box-shadow transition */
   margin: 10px;
+  border-radius: 8px; /* Added border-radius */
 }
 
 .services .icon-box .icon {
@@ -739,6 +751,8 @@ section .container {
 .services .icon-box:hover {
   background: #042e5f;
   border-color: #12d640;
+  transform: scale(1.03); /* Added subtle scale */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Added shadow on hover */
 }
 
 .services .icon-box:hover .icon {
